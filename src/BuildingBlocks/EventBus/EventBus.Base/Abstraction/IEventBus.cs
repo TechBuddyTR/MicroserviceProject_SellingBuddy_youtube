@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EventBus.Base.Abstraction
 {
-    public interface IEventBus: IDisposable
+    public interface IEventBus
     {
         void Publish(IntegrationEvent @event);
 

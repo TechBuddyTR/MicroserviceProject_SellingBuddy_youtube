@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EventBus.Base.Events
 {
-    public abstract class BaseEventBus : IEventBus
+    public abstract class BaseEventBus : IEventBus, IDisposable
     {
         public readonly IServiceProvider ServiceProvider;
         public readonly IEventBusSubscriptionManager SubsManager;

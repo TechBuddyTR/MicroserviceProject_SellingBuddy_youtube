@@ -22,11 +22,11 @@ namespace EventBus.AzureServiceBus
         {
             logger = serviceProvider.GetService(typeof(ILogger<EventBusServiceBus>)) as ILogger<EventBusServiceBus>;
             managementClient = new ManagementClient(config.EventBusConnectionString);
-            topicClient = createTopicClient();
+            topicClient = CreateTopicClient();
         }
 
 
-        private ITopicClient createTopicClient()
+        private ITopicClient CreateTopicClient()
         {
             if (topicClient == null || topicClient.IsClosedOrClosing)
             {
