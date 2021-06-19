@@ -22,18 +22,23 @@ namespace EventBus.RabbitMQ
 
         public EventBusRabbitMQ(EventBusConfig config, IServiceProvider serviceProvider) : base(config, serviceProvider)
         {
-            if (config.Connection != null)
+            if (EventBusConfig.Connection != null)
             {
-                var connJson = JsonConvert.SerializeObject(EventBusConfig.Connection, new JsonSerializerSettings()
+                if (EventBusConfig.Connection is ConnectionFactory)
+                    connectionFactory = EventBusConfig.Connection as ConnectionFactory;
+                else
                 {
-                    // Self referencing loop detected for property 
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
+                    var connJson = JsonConvert.SerializeObject(EventBusConfig.Connection, new JsonSerializerSettings()
+                    {
+                        // Self referencing loop detected for property 
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    });
 
-                connectionFactory = JsonConvert.DeserializeObject<ConnectionFactory>(connJson);
+                    connectionFactory = JsonConvert.DeserializeObject<ConnectionFactory>(connJson);
+                }
             }
             else
-                connectionFactory = new ConnectionFactory();
+                connectionFactory = new ConnectionFactory(); //Create with default values
 
             persistentConnection = new RabbitMQPersistentConnection(connectionFactory, config.ConnectionRetryCount);
 
@@ -80,7 +85,6 @@ namespace EventBus.RabbitMQ
 
             consumerChannel.ExchangeDeclare(exchange: EventBusConfig.DefaultTopicName, type: "direct"); // Ensure exchange exists while publishing
 
-
             var message = JsonConvert.SerializeObject(@event);
             var body = Encoding.UTF8.GetBytes(message);
 
@@ -94,6 +98,10 @@ namespace EventBus.RabbitMQ
                                      exclusive: false,
                                      autoDelete: false,
                                      arguments: null);
+
+                consumerChannel.QueueBind(queue: GetSubName(eventName),
+                                  exchange: EventBusConfig.DefaultTopicName,
+                                  routingKey: eventName);
 
                 consumerChannel.BasicPublish(
                     exchange: EventBusConfig.DefaultTopicName,
