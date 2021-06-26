@@ -1,0 +1,11 @@
+version: '3.4'
+
+services: 
+    s_consul:
+        container_name: c_consul
+        image: consul
+        ports:
+            - 8500:8500
+            - 8600:8600/tcp
+            - 8600:8600/udp
+

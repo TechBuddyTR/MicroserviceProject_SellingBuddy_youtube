@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31025.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31410.414
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{69317E21-48AA-4455-9EF9-3C268C68E0FB}"
 EndProject
@@ -70,7 +70,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BD2E4BE1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{830CEA13-9769-48A7-AD31-D525B5F77B3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.UnitTest", "tests\BuildingBlocks\EventBus.UnitTest\EventBus.UnitTest.csproj", "{A1354E63-AC16-49DF-964A-25C5749E7594}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.UnitTest", "tests\BuildingBlocks\EventBus.UnitTest\EventBus.UnitTest.csproj", "{A1354E63-AC16-49DF-964A-25C5749E7594}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose-files", "docker-compose-files", "{F478EAF5-58D3-4A35-9DE1-73F7E617795D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "consul", "consul", "{C48C7080-A1F1-44E2-8250-734F6B9BD291}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose-files\consul\docker-compose.yml = docker-compose-files\consul\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbitmq", "rabbitmq", "{26637061-8BD3-4594-9510-CFD420FED7B6}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose-files\rabbitmq\docker-compose.yml = docker-compose-files\rabbitmq\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sqlserver", "sqlserver", "{E7C40461-EBAF-445B-A779-71942B6E9649}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose-files\sqlserver\docker-compose.yml = docker-compose-files\sqlserver\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "redis", "redis", "{850FAB34-5509-48A9-A892-F742517313A7}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose-files\redis\docker-compose.yml = docker-compose-files\redis\docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +199,10 @@ Global
 		{07055B93-8135-469A-991F-81CE4F2867DA} = {39F93B3D-E099-41F9-AF99-09B22E811277}
 		{830CEA13-9769-48A7-AD31-D525B5F77B3C} = {BD2E4BE1-FB9B-48DA-B3AE-98F9CA508A5A}
 		{A1354E63-AC16-49DF-964A-25C5749E7594} = {830CEA13-9769-48A7-AD31-D525B5F77B3C}
+		{C48C7080-A1F1-44E2-8250-734F6B9BD291} = {F478EAF5-58D3-4A35-9DE1-73F7E617795D}
+		{26637061-8BD3-4594-9510-CFD420FED7B6} = {F478EAF5-58D3-4A35-9DE1-73F7E617795D}
+		{E7C40461-EBAF-445B-A779-71942B6E9649} = {F478EAF5-58D3-4A35-9DE1-73F7E617795D}
+		{850FAB34-5509-48A9-A892-F742517313A7} = {F478EAF5-58D3-4A35-9DE1-73F7E617795D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8135F411-23AB-4B9D-B345-E7C32F160369}

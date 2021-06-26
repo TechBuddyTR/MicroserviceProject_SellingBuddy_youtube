@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  s_sqlserver:
+    container_name: c_sqlserver
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    user: root
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Salih123!
+    volumes:
+      - /opt/app_data/sqlserver/data:/var/opt/mssql/data
+      - /opt/app_data/sqlserver/log:/var/opt/mssql/log

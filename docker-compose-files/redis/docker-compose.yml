@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  s_redis:
+    container_name: c_redis
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - /opt/app_data/redis/:/data
