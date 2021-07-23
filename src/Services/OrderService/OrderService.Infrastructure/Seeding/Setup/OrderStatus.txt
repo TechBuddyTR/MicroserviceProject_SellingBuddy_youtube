@@ -1,0 +1,7 @@
+﻿OrderStatus
+Submitted
+AwaitingValidation
+StockConfirmed
+Paid
+Shipped
+Cancelled
