@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using EventBus.Base.Abstraction;
-using EventBus.Base.Abstractions;
 using MediatR;
 using OrderService.Application.IntegrationEvents;
 using OrderService.Application.Interfaces.Repositories;
