@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using OrderService.Application.Dtos;
 using OrderService.Application.Features.Commands.CreateOrder;
 using OrderService.Application.Features.Queries.ViewModels;
 using OrderService.Domain.AggregateModels.OrderAggregate;
