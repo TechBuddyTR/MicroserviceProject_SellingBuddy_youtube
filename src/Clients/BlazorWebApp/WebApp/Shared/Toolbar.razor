@@ -1,0 +1,39 @@
+﻿@if (isLoggedIn)
+{
+    <a href="basket" class="ml-md-auto"> @identityService.GetUserName() - Basket (@basketItemCount) </a>
+    <a class="ml-md-auto" @onclick=@GoLogoutPage>Logout</a>
+}
+else
+{
+    <a class="ml-md-auto" @onclick=@GoLoginPage>Login</a>
+}
+
+
+
+@code {
+    private bool isLoggedIn;
+    private int basketItemCount = 0;
+
+    [Inject]
+    IIdentityService identityService { get; set; }
+
+    [Inject]
+    NavigationManager navigationManager { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        isLoggedIn = identityService.IsLoggedIn;
+
+        return base.OnInitializedAsync();
+    }
+
+    private void GoLoginPage()
+    {
+        navigationManager.NavigateTo($"login?returnUrl={Uri.EscapeDataString(navigationManager.Uri)}", true);
+    }
+
+    private void GoLogoutPage()
+    {
+        navigationManager.NavigateTo($"logout?returnUrl={Uri.EscapeDataString(navigationManager.Uri)}", true);
+    }
+}
