@@ -1,0 +1,37 @@
+﻿
+
+<div class="col-md-3 col-sm-6">
+	<div class="product-grid">
+		<div class="product-image">
+			<a href="#" class="image">
+				<img class="pic-1" src="@("http://localhost:5004/" + CatalogItem.PictureUri)" />
+			</a>
+		</div>
+
+		<div class="product-content">
+			<h3 class="title">
+				<a href="#">@CatalogItem.Name</a>
+			</h3>
+			<div class="price">
+				TL @CatalogItem.Price.ToString("N2")
+			</div>
+			<a class="add-to-cart" href="javascript:void(0)" onclick="@OnClick">
+				Add to Cart
+			</a>
+		</div>
+	</div>
+</div>
+
+
+
+@code {
+
+	[Parameter]
+	public CatalogItem CatalogItem { get; set; }
+
+	[Parameter]
+	public EventCallback<MouseEventArgs> OnClick {  get;  set;  }
+
+
+
+}
