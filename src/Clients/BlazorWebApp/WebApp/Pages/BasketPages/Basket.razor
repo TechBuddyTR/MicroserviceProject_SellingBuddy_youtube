@@ -1,0 +1,101 @@
+﻿@page "/basket"
+
+
+@using WebApp.Domain.Models.ViewModels
+
+
+<div class="card">
+	<div class="row">
+		<div class="col-md-8 cart">
+			<div class="title">
+				<div class="row">
+					<div class="col">
+						<h4><b>Shopping Cart</b></h4>
+					</div>
+					<div class="col align-self-center text-right text-muted">@basketModel.Items.Count items</div>
+				</div>
+			</div>
+
+			@if (basketModel.Items.Any())
+			{
+				foreach (var basketItem in basketModel.Items)
+				{
+					<div class="row border-top border-bottom">
+						<div class="row main align-items-center">
+							@{
+								string pictureUrl = "http://localhost:5004/" + basketItem.PictureUrl; 
+							}
+							<div class="col-2"><img class="img-fluid" src="@pictureUrl"></div>
+							<div class="col">
+								<div class="row text-muted">@basketItem.ProductName</div>
+							</div>
+							<div class="col"><a href="#" class="border">@basketItem.Quantity</a></div>
+							<div class="col">
+								$ @basketItem.UnitPrice.ToString("N2")
+								<span @onclick="@(async()=> await RemoveItemFromList(basketItem))">
+
+									<button type="button" class="close" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+
+								</span>
+							</div>
+						</div>
+					</div>
+				}
+			}
+
+			<div class="back-to-shop"><a href="catalog">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+		</div>
+
+		<div class="col-md-4 summary">
+			<div>
+				<h5><b>Summary</b></h5>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col" style="padding-left:0;">ITEMS @basketModel.Items.Count</div>
+				<div class="col text-right">$ @basketModel.Items.Sum(i => i.UnitPrice * i.Quantity)</div>
+			</div>
+
+			<div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+				<div class="col">TOTAL PRICE</div>
+				<div class="col text-right">$ @basketModel.Items.Sum(i => i.UnitPrice * i.Quantity)</div>
+			</div> <button class="btn" @onclick="@(()=>Checkout())">CHECKOUT</button>
+
+		</div>
+	</div>
+</div>
+
+@code
+{
+	WebApp.Domain.Models.ViewModels.Basket basketModel = new WebApp.Domain.Models.ViewModels.Basket();
+
+	[Inject]
+	IBasketService basketService { get; set; }
+
+	//[Inject]
+	//AppState AppState { get; set; }
+
+	[Inject]
+	NavigationManager navigationManager { get; set; }
+
+	protected async override Task OnInitializedAsync()
+	{
+		basketModel = await basketService.GetBasket();
+	}
+
+	void Checkout()
+	{
+		navigationManager.NavigateTo("/create-order");
+		Console.WriteLine("navigating create-order");
+	}
+
+	async Task RemoveItemFromList(BasketItem item)
+	{
+		basketModel.Items.Remove(item);
+		basketModel = await basketService.UpdateBasket(basketModel);
+
+		//AppState.UpdateCart(this);
+	} 
+}

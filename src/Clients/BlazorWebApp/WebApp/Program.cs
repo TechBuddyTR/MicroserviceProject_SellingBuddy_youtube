@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using WebApp.Utils;
 using WebApp.Application.Services.Interfaces;
 using WebApp.Application.Services;
+using WebApp.Infrastructure;
 
 namespace WebApp
 {
@@ -30,6 +31,7 @@ namespace WebApp
 
             builder.Services.AddTransient<IIdentityService, IdentityService>();
             builder.Services.AddTransient<ICatalogService, CatalogService>();
+            builder.Services.AddTransient<IBasketService, BasketService>();
 
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
@@ -40,10 +42,14 @@ namespace WebApp
                 return clientFactory.CreateClient("ApiGatewayHttpClient");
             });
 
+
+            builder.Services.AddScoped<AuthTokenHandler>();
+
             builder.Services.AddHttpClient("ApiGatewayHttpClient", client => 
             {
                 client.BaseAddress = new Uri("http://localhost:5000/");
-            });
+            })
+            .AddHttpMessageHandler<AuthTokenHandler>();
 
 
 

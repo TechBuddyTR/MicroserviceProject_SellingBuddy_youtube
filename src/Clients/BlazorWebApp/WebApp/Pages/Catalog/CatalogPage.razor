@@ -22,6 +22,15 @@
 	[Inject]
 	ICatalogService catalogService { get; set; }
 
+	[Inject]
+	IIdentityService identityService { get; set; }
+
+	[Inject]
+    public IBasketService basketService { get; set; }
+
+	[Inject]
+    NavigationManager navigationManager { get; set; }
+
 	protected async override Task OnInitializedAsync()
 	{
 		model = await catalogService.GetCatalogItems();
@@ -30,6 +39,14 @@
 
 	public async Task AddToCart(CatalogItem catalogItem)
 	{
-		await Task.CompletedTask;
+		if (!identityService.IsLoggedIn)
+        {
+            //navigationManager.NavigateTo("login", true);
+            navigationManager.NavigateTo($"login?returnUrl={Uri.EscapeDataString(navigationManager.Uri)}", true);
+            return;
+        }
+
+        await basketService.AddItemToBasket(catalogItem.Id);
+        //appState.IncreaseItemCount(this);
 	}
 }

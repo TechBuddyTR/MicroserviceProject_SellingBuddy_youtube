@@ -39,6 +39,7 @@ namespace BasketService.Api
             ConfigureServicesExt(services);
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BasketService.Api", Version = "v1" });
@@ -55,13 +56,12 @@ namespace BasketService.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BasketService.Api v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -81,6 +81,7 @@ namespace BasketService.Api
             services.ConfigureConsul(Configuration);
 
             services.AddHttpContextAccessor();
+            services.AddLogging(configure => { configure.AddConsole(); configure.SetMinimumLevel(LogLevel.Debug); });
 
             services.AddScoped<IBasketRepository, RedisBasketRepository>();
             services.AddTransient<IIdentityService, IdentityService>();

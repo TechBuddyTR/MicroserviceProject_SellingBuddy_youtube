@@ -10,21 +10,73 @@ else
 
 
 
-@code {
-    private bool isLoggedIn;
-    private int basketItemCount = 0;
+@code 
+{
+    [Inject]
+    IBasketService basketService { get; set; }
 
     [Inject]
     IIdentityService identityService { get; set; }
 
+    //[Inject]
+    //AppState appState { get; set; }
+
     [Inject]
     NavigationManager navigationManager { get; set; }
 
-    protected override Task OnInitializedAsync()
+
+    private int basketItemCount = 0;
+
+    bool isLoggedIn = false;
+
+    protected override void OnAfterRender(bool firstRender)
     {
+        //if (firstRender)
+        //    appState.StateChanged += async (source, property) => await AppState_StateChanged(source, property);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await calculateItemCount();
+    }
+
+    private async Task<int> calculateItemCount()
+    {
+        Console.WriteLine("1");
         isLoggedIn = identityService.IsLoggedIn;
 
-        return base.OnInitializedAsync();
+        Console.WriteLine("isLoggedIn: " + isLoggedIn);
+
+        if (!isLoggedIn)
+            return 0;
+
+        var basket = await basketService.GetBasket();
+        var count = basket.Items == null ? 0 : basket.Items.Sum(i => i.Quantity);
+        Console.WriteLine("count: " + count);
+        basketItemCount = count;
+
+        return count;
+    }
+
+    private async Task AppState_StateChanged(ComponentBase source, string property)
+    {
+        if (source == this)
+            return;
+
+        if (property == "increase")
+        {
+            basketItemCount++;
+        }
+        else if (property == "updatebasket")
+        {
+            await calculateItemCount();
+        }
+        else if (property == "login")
+        {
+            await calculateItemCount();
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private void GoLoginPage()
