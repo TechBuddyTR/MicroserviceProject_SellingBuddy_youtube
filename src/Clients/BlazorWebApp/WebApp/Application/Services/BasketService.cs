@@ -8,6 +8,7 @@ using WebApp.Application.Services.Dtos;
 using WebApp.Application.Services.Interfaces;
 using WebApp.Domain.Models.ViewModels;
 using WebApp.Extensions;
+using WebApp.Infrastructure;
 
 namespace WebApp.Application.Services
 {
@@ -17,8 +18,7 @@ namespace WebApp.Application.Services
         private readonly IIdentityService identityService;
         private readonly ILogger<BasketService> logger;
 
-        public BasketService(HttpClient apiClient, IIdentityService identityService, ILogger<BasketService> logger)
-        {
+        public BasketService(HttpClient apiClient, IIdentityService identityService, ILogger<BasketService> logger)        {
             this.apiClient = apiClient;
             this.identityService = identityService;
             this.logger = logger;
@@ -43,8 +43,6 @@ namespace WebApp.Application.Services
 
         public async Task<Basket> GetBasket()
         {
-            Console.WriteLine("BaseAddress: " + apiClient.BaseAddress);
-            Console.WriteLine("UserName: " + identityService.GetUserName());
             var response = await apiClient.GetResponseAsync<Basket>("basket/" + identityService.GetUserName());
 
             return response ?? new Basket() { BuyerId = identityService.GetUserName() };

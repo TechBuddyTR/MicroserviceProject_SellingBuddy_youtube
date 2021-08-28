@@ -74,8 +74,8 @@
 	[Inject]
 	IBasketService basketService { get; set; }
 
-	//[Inject]
-	//AppState AppState { get; set; }
+	[Inject]
+    AppStateManager appState { get; set; }
 
 	[Inject]
 	NavigationManager navigationManager { get; set; }
@@ -88,7 +88,6 @@
 	void Checkout()
 	{
 		navigationManager.NavigateTo("/create-order");
-		Console.WriteLine("navigating create-order");
 	}
 
 	async Task RemoveItemFromList(BasketItem item)
@@ -96,6 +95,6 @@
 		basketModel.Items.Remove(item);
 		basketModel = await basketService.UpdateBasket(basketModel);
 
-		//AppState.UpdateCart(this);
+		appState.UpdateCart(nul);
 	} 
 }

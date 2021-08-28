@@ -35,6 +35,8 @@ namespace WebApp
 
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
+            builder.Services.AddSingleton<AppStateManager>();
+
             builder.Services.AddScoped(sp => 
             {
                 var clientFactory = sp.GetRequiredService<IHttpClientFactory>();

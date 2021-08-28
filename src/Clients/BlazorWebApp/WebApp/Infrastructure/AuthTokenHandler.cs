@@ -22,9 +22,8 @@ namespace WebApp.Infrastructure
         {
             if (storageService != null)
             {
-                var token = storageService.GetToken();
+                string token = storageService.GetToken();
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", token);
-                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", token);
             }
 
             return base.SendAsync(request, cancellationToken);

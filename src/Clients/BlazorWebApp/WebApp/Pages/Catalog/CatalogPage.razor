@@ -31,6 +31,9 @@
 	[Inject]
     NavigationManager navigationManager { get; set; }
 
+	[Inject]
+    AppStateManager appState { get; set; }
+
 	protected async override Task OnInitializedAsync()
 	{
 		model = await catalogService.GetCatalogItems();
@@ -47,6 +50,6 @@
         }
 
         await basketService.AddItemToBasket(catalogItem.Id);
-        //appState.IncreaseItemCount(this);
+        appState.UpdateCart(this);
 	}
 }

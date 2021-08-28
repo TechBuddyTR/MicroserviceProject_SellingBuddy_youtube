@@ -19,7 +19,7 @@
         var coll = HttpUtility.ParseQueryString(new Uri(navigationManager.Uri).Query);
 
         string returnUrl = coll.Get("returnUrl") ?? "/";
-
+        
         navigationManager.NavigateTo(returnUrl);
     }
 

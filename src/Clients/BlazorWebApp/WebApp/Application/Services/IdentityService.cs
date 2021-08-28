@@ -52,7 +52,7 @@ namespace WebApp.Application.Services
                 syncLocalStorageService.SetUsername(response.UserName);
 
                 ((AuthStateProvider)authStateProvider).NotifyUserLogin(response.UserName);
-
+                
                 httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", response.UserToken);
 
                 return true;
@@ -67,7 +67,6 @@ namespace WebApp.Application.Services
             syncLocalStorageService.RemoveItem("username");
 
             ((AuthStateProvider)authStateProvider).NotifyUserLogout();
-
             httpClient.DefaultRequestHeaders.Authorization = null;
         }
     }
