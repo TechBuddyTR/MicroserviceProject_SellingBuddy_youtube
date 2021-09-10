@@ -95,6 +95,6 @@
 		basketModel.Items.Remove(item);
 		basketModel = await basketService.UpdateBasket(basketModel);
 
-		appState.UpdateCart(nul);
+		appState.UpdateCart(null);
 	} 
 }

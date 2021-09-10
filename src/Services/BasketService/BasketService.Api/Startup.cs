@@ -83,7 +83,7 @@ namespace BasketService.Api
             services.AddHttpContextAccessor();
             services.AddLogging(configure => { configure.AddConsole(); configure.SetMinimumLevel(LogLevel.Debug); });
 
-            services.AddScoped<IBasketRepository, RedisBasketRepository>();
+            services.AddTransient<IBasketRepository, RedisBasketRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddSingleton<IEventBus>(sp =>

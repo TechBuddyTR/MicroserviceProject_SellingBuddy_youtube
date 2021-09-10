@@ -1,0 +1,127 @@
+﻿@page "/create-order"
+
+<h3>Order Create</h3>
+
+
+<EditForm Model="@orderModel" OnValidSubmit="@OnValidSubmit">
+
+
+    <section class="esh-orders_new-section">
+        <h4 class="form-control">Shipping address</h4>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Address</label>
+                    <InputText @bind-Value="orderModel.Street" class="form-control" />
+                    <ValidationMessage For="@(() => orderModel.Street)" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>City</label>
+                    <InputText @bind-Value="orderModel.City" class="form-control" />
+                    <ValidationMessage For="@(() => orderModel.City)" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>State</label>
+                    <InputText @bind-Value="orderModel.State" class="form-control" />
+                    <ValidationMessage For="@(() => orderModel.State)" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Country</label>
+                    <InputText @bind-Value="orderModel.Country" class="form-control" />
+                    <ValidationMessage For="@(() => orderModel.Country)" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="esh-orders_new-section">
+        <h4 class="esh-orders_new-title">Payment method</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <InputText @bind-Value="orderModel.CardNumber" class="form-control" />
+                    <ValidationMessage For="@(() => orderModel.CardNumber)" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Card Holder Name</label>
+                    <InputText @bind-Value="orderModel.CardHolderName" class="form-control" />
+                    <ValidationMessage For="@(() => orderModel.CardHolderName)" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Card Date (MM/YY)</label>
+                    <InputText @bind-Value="orderModel.CardExpirationShort" class="form-control" />
+                    <ValidationMessage For="@(() => orderModel.CardExpirationShort)" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Security Number</label>
+                    <InputText @bind-Value="orderModel.CardSecurityNumber" class="form-control" />
+                    <ValidationMessage For="@(() => orderModel.CardSecurityNumber)" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row">
+        <input type="submit" class="btn btn-primary" value="Make Payment" />
+    </div>
+
+</EditForm>
+
+
+@code {
+
+    [Inject]
+    IBasketService basketService { get; set; }
+
+    [Inject]
+    IIdentityService identityService { get; set; }
+
+    [Inject]
+    IOrderService orderService { get; set; }
+
+    [Inject]
+    NavigationManager navigationManager { get; set; }
+
+    [Inject]
+    AppStateManager appState { get; set; }
+
+    Order orderModel = new Order()
+    {
+        CardExpirationShort = "10/24",
+        CardHolderName = "Salih Cantekin",
+        CardNumber = "1234123412341234",
+        CardSecurityNumber = "123",
+        CardTypeId = 1,
+        City = "İstanbul",
+        Description = "Test Desc",
+        Street = "Test Street",
+        Country = "Turkey"
+    };
+
+
+    async Task OnValidSubmit()
+    {
+        orderModel.Buyer = identityService.GetUserName();
+        var basketDto = orderService.MapOrderToBasket(orderModel);
+
+        await basketService.Checkout(basketDto);
+
+        appState.UpdateCart(this);
+
+        navigationManager.NavigateTo("/");
+    }
+}
