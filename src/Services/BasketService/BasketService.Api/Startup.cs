@@ -26,9 +26,12 @@ namespace BasketService.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger<Startup> logger;
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            this.logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -49,6 +52,8 @@ namespace BasketService.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
+            logger.LogInformation("System up and running - From Configure {TestParam}", "Salih");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -81,7 +86,6 @@ namespace BasketService.Api
             services.ConfigureConsul(Configuration);
 
             services.AddHttpContextAccessor();
-            services.AddLogging(configure => { configure.AddConsole(); configure.SetMinimumLevel(LogLevel.Debug); });
 
             services.AddTransient<IBasketRepository, RedisBasketRepository>();
             services.AddTransient<IIdentityService, IdentityService>();

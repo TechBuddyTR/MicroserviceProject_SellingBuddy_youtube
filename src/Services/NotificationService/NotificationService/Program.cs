@@ -1,21 +1,29 @@
 ﻿using EventBus.Base;
 using EventBus.Base.Abstraction;
 using EventBus.Factory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NotificationService.IntegrationEvents.EventHandlers;
 using PaymentService.Api.IntegrationEvents.Events;
+using Serilog;
 using System;
 
 namespace NotificationService
 {
     class Program
     {
+        private static string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
         static void Main(string[] args)
         {
             ServiceCollection services = new ServiceCollection();
 
             ConfigureServices(services);
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(serilogConfiguration)
+                .CreateLogger();
 
             var sp = services.BuildServiceProvider();
 
@@ -25,19 +33,13 @@ namespace NotificationService
             eventBus.Subscribe<OrderPaymentFailedIntegrationEvent, OrderPaymentFailedIntegrationEventHandler>();
 
 
-            Console.WriteLine("Application is Running....");
-
+            Log.Information("Application is Running....");
 
             Console.ReadLine();
         }
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            services.AddLogging(configure =>
-            {
-                configure.AddConsole();
-            });
-
             services.AddTransient<OrderPaymentFailedIntegrationEventHandler>();
             services.AddTransient<OrderPaymentSuccessIntegrationEventHandler>();
 
@@ -53,6 +55,19 @@ namespace NotificationService
 
                 return EventBusFactory.Create(config, sp);
             });
+        }
+
+        private static IConfiguration serilogConfiguration
+        {
+            get
+            {
+                return new ConfigurationBuilder()
+                    .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                    .AddJsonFile($"Configurations/serilog.json", optional: false)
+                    .AddJsonFile($"Configurations/serilog.{env}.json", optional: true)
+                    .AddEnvironmentVariables()
+                    .Build();
+            }
         }
     }
 }
