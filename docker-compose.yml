@@ -1,0 +1,82 @@
+version: '3.4'
+
+services:
+
+  webapp:
+    container_name: c_blazorui
+    image: ${DOCKER_REGISTRY-}webapp
+    build:
+      context: .
+      dockerfile: src/Clients/BlazorWebApp/WebApp/Dockerfile
+
+
+  web.apigateway:
+    container_name: c_apigateway
+    image: ${DOCKER_REGISTRY-}webapigateway
+    build:
+      context: .
+      dockerfile: src/ApiGateways/WebApiGateway/Web.ApiGateway/Dockerfile
+
+
+  orderservice.api:
+    container_name: c_orderservice
+    image: ${DOCKER_REGISTRY-}orderserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/OrderService/OrderService.Api/Dockerfile
+
+  notificationservice:
+    container_name: c_notificationservice
+    image: ${DOCKER_REGISTRY-}notificationservice
+    build:
+      context: .
+      dockerfile: src/Services/NotificationService/NotificationService/Dockerfile
+
+
+  identityservice.api:
+    container_name: c_identityservice
+    image: ${DOCKER_REGISTRY-}identityserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/IdentityService/IdentityService.Api/Dockerfile
+
+
+  catalogservice.api:
+    container_name: c_catalogservice
+    image: ${DOCKER_REGISTRY-}catalogserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/CatalogService/CatalogService.Api/Dockerfile
+
+
+  basketservice.api:
+    container_name: c_basketservice
+    image: ${DOCKER_REGISTRY-}basketserviceapi
+    build:
+      context: .
+      dockerfile: src\Services\BasketService\BasketService.Api\Dockerfile
+
+  paymentservice.api:
+    container_name: c_paymentservice
+    image: ${DOCKER_REGISTRY-}paymentserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/PaymentService/PaymentService.Api/Dockerfile
+
+
+
+  s_redis:
+    container_name: c_redis
+    image: redis
+
+  s_rabbitmq:
+    container_name: c_rabbitmq
+    image: rabbitmq:3-management
+
+  s_sqlserver:
+    container_name: c_sqlserver
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  s_consul:
+    container_name: c_consul
+    image: consul

@@ -18,7 +18,7 @@ namespace OrderService.Infrastructure.Context
 
         public OrderDbContext CreateDbContext(string[] args)
         {
-            var connStr = "Data Source=localhost;Initial Catalog=order;Persist Security Info=True;User ID=sa;Password=Salih123!";
+            var connStr = "Data Source=c_sqlserver;Initial Catalog=order;Persist Security Info=True;User ID=sa;Password=Salih123!";
 
             var optionsBuilder = new DbContextOptionsBuilder<OrderDbContext>()
                 .UseSqlServer(connStr);

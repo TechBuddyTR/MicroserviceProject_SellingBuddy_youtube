@@ -6,7 +6,7 @@
       {
         "Name": "Graylog",
         "Args": {
-          "hostnameOrAddress": "127.0.0.1",
+          "hostnameOrAddress": "graylog",
           "port": "12201",
           "transportType": "Udp",
           "facility": "OrderService"

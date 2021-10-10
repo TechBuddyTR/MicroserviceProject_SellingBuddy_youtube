@@ -62,7 +62,7 @@ namespace CatalogService.Api
                 endpoints.MapControllers();
             });
 
-            app.RegisterWithConsul(lifetime);
+            app.RegisterWithConsul(lifetime, Configuration);
         }
     }
 }

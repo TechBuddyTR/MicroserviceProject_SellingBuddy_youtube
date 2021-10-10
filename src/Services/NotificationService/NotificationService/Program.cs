@@ -6,14 +6,27 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NotificationService.IntegrationEvents.EventHandlers;
 using PaymentService.Api.IntegrationEvents.Events;
+using RabbitMQ.Client;
 using Serilog;
 using System;
+using System.Threading.Tasks;
 
 namespace NotificationService
 {
     class Program
     {
         private static string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+        //static async Task Main(string[] args)
+        //{
+        //    var counter = 0;
+        //    var max = args.Length != 0 ? Convert.ToInt32(args[0]) : -1;
+        //    while (max == -1 || counter < max)
+        //    {
+        //        Console.WriteLine($"Counter: {++counter}");
+        //        await Task.Delay(1000);
+        //    }
+        //}
 
         static void Main(string[] args)
         {
@@ -34,8 +47,9 @@ namespace NotificationService
 
 
             Log.Information("Application is Running....");
+            Console.WriteLine("Application is Running....");
 
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         private static void ConfigureServices(ServiceCollection services)
@@ -50,7 +64,11 @@ namespace NotificationService
                     ConnectionRetryCount = 5,
                     EventNameSuffix = "IntegrationEvent",
                     SubscriberClientAppName = "NotificationService",
-                    EventBusType = EventBusType.RabbitMQ
+                    EventBusType = EventBusType.RabbitMQ,
+                    Connection = new ConnectionFactory()
+                    {
+                        HostName = "c_rabbitmq"
+                    }
                 };
 
                 return EventBusFactory.Create(config, sp);
