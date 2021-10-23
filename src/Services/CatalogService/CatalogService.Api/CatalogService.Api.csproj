@@ -27,4 +27,14 @@
     
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pics\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pics\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

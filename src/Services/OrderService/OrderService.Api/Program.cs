@@ -49,6 +49,11 @@ namespace OrderService.Api
         public static IWebHost BuildWebHost(IConfiguration configuration, string[] args)
         {
             return WebHost.CreateDefaultBuilder()
+                .UseDefaultServiceProvider((context, options) =>
+                {
+                    options.ValidateOnBuild = false;
+                    options.ValidateScopes = false;
+                })
                 .ConfigureAppConfiguration(i => i.AddConfiguration(configuration))
                 .UseStartup<Startup>()
                 .ConfigureLogging(i => i.ClearProviders())
@@ -60,6 +65,10 @@ namespace OrderService.Api
         {
             var host = BuildWebHost(configuration, args);
 
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(serilogConfiguration)
+                .CreateLogger();
+
             host.MigrateDbContext<OrderDbContext>((context, services) =>
             {
                 var logger = services.GetService<ILogger<OrderDbContext>>();
@@ -69,9 +78,7 @@ namespace OrderService.Api
                     .Wait();
             });
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(serilogConfiguration)
-                .CreateLogger();
+            Log.Information("Application is Running....");
 
             host.Run();
         }

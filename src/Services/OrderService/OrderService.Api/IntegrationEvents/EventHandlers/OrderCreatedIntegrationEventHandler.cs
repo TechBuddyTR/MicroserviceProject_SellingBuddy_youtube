@@ -23,19 +23,26 @@ namespace OrderService.Api.IntegrationEvents.EventHandlers
 
         public async Task Handle(OrderCreatedIntegrationEvent @event)
         {
-            logger.LogInformation("Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})", 
+            try
+            {
+                logger.LogInformation("Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})",
                 @event.Id,
                 typeof(Startup).Namespace,
                 @event);
 
-            var createOrderCommand = new CreateOrderCommand(@event.Basket.Items, 
-                            @event.UserId, @event.UserName, 
-                            @event.City, @event.Street,
-                            @event.State, @event.Country, @event.ZipCode,
-                            @event.CardNumber, @event.CardHolderName, @event.CardExpiration,
-                            @event.CardSecurityNumber, @event.CardTypeId);
+                var createOrderCommand = new CreateOrderCommand(@event.Basket.Items,
+                                @event.UserId, @event.UserName,
+                                @event.City, @event.Street,
+                                @event.State, @event.Country, @event.ZipCode,
+                                @event.CardNumber, @event.CardHolderName, @event.CardExpiration,
+                                @event.CardSecurityNumber, @event.CardTypeId);
 
-            await mediator.Send(createOrderCommand);
+                await mediator.Send(createOrderCommand);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, ex.ToString());
+            }
         }
     }
 }

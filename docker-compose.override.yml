@@ -132,6 +132,8 @@ services:
 
   notificationservice:
     tty: true
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - net_backendservices
     depends_on:

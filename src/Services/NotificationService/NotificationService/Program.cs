@@ -46,8 +46,7 @@ namespace NotificationService
             eventBus.Subscribe<OrderPaymentFailedIntegrationEvent, OrderPaymentFailedIntegrationEventHandler>();
 
 
-            Log.Information("Application is Running....");
-            Console.WriteLine("Application is Running....");
+            Log.Logger.Information("Application is Running....");
 
             Console.ReadKey();
         }

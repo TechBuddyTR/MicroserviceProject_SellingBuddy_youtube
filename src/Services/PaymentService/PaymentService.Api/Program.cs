@@ -41,6 +41,11 @@ namespace PaymentService.Api
         public static IWebHost BuildWebHost(IConfiguration configuration, string[] args)
         {
             return WebHost.CreateDefaultBuilder()
+                .UseDefaultServiceProvider((context, options) =>
+                {
+                    options.ValidateOnBuild = false;
+                    options.ValidateScopes = false;
+                })
                 .ConfigureAppConfiguration(i => i.AddConfiguration(configuration))
                 .UseStartup<Startup>()
                 .ConfigureLogging(i => i.ClearProviders())
@@ -55,6 +60,8 @@ namespace PaymentService.Api
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(serilogConfiguration)
                 .CreateLogger();
+
+            Log.Logger.Information("Application is Running....");
 
             host.Run();
         }

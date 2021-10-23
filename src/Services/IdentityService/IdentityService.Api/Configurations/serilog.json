@@ -1,12 +1,12 @@
 {
   "Serilog": {
     "Using": [ "Serilog.Sinks.Graylog", "Serilog.Sinks.Console" ],
-    "MinimumLevel": "Debug",
+    "MinimumLevel": "Information",
     "WriteTo": [
       {
         "Name": "Graylog",
         "Args": {
-          "hostnameOrAddress": "graylog",
+          "hostnameOrAddress": "c_graylog",
           "port": "12201",
           "transportType": "Udp",
           "facility": "IdentityService"
