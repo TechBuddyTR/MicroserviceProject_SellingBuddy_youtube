@@ -40,7 +40,7 @@ services:
       - s_consul
       - s_rabbitmq
     external_links:
-      - graylog
+      - c_graylog
       - s_consul
       - s_rabbitmq
       - s_sqlserver
@@ -64,7 +64,7 @@ services:
       - s_consul
       - s_rabbitmq
     external_links:
-      - graylog
+      - c_graylog
       - s_consul
       - s_rabbitmq
       - s_sqlserver
@@ -87,7 +87,7 @@ services:
       - s_consul
       - s_rabbitmq
     external_links:
-      - graylog
+      - c_graylog
       - s_consul
       - s_rabbitmq
       - s_sqlserver
@@ -110,7 +110,7 @@ services:
       - s_consul
       - s_rabbitmq
     external_links:
-      - graylog
+      - c_graylog
       - s_consul
       - s_rabbitmq
       - s_redis
@@ -126,7 +126,7 @@ services:
     depends_on:
       - s_rabbitmq
     external_links:
-      - graylog
+      - c_graylog
       - s_consul
       - s_rabbitmq
 
@@ -139,7 +139,7 @@ services:
     depends_on:
       - s_rabbitmq
     external_links:
-      - graylog
+      - c_graylog
       - s_consul
       - s_rabbitmq
 

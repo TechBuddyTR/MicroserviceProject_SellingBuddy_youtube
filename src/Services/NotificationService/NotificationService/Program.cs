@@ -33,7 +33,7 @@ namespace NotificationService
             ServiceCollection services = new ServiceCollection();
 
             ConfigureServices(services);
-
+            Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(serilogConfiguration)
                 .CreateLogger();
@@ -48,7 +48,7 @@ namespace NotificationService
 
             Log.Logger.Information("Application is Running....");
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         private static void ConfigureServices(ServiceCollection services)
