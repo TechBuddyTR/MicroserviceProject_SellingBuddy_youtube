@@ -189,10 +189,13 @@ services:
 networks:
   net_apigateway:
     driver: bridge
+    external: true
   net_frontend:
     driver: bridge
+    external: true
   net_backendservices:
     driver: bridge
+    external: true
 
 volumes:
   rabbitmq:

@@ -17,23 +17,12 @@ namespace NotificationService
     {
         private static string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-        //static async Task Main(string[] args)
-        //{
-        //    var counter = 0;
-        //    var max = args.Length != 0 ? Convert.ToInt32(args[0]) : -1;
-        //    while (max == -1 || counter < max)
-        //    {
-        //        Console.WriteLine($"Counter: {++counter}");
-        //        await Task.Delay(1000);
-        //    }
-        //}
-
         static void Main(string[] args)
         {
-            ServiceCollection services = new ServiceCollection();
+            var services = new ServiceCollection();
 
             ConfigureServices(services);
-            Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
+            
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(serilogConfiguration)
                 .CreateLogger();
@@ -47,8 +36,6 @@ namespace NotificationService
 
 
             Log.Logger.Information("Application is Running....");
-
-            //Console.ReadKey();
         }
 
         private static void ConfigureServices(ServiceCollection services)
@@ -56,7 +43,7 @@ namespace NotificationService
             services.AddTransient<OrderPaymentFailedIntegrationEventHandler>();
             services.AddTransient<OrderPaymentSuccessIntegrationEventHandler>();
 
-            services.AddSingleton<IEventBus>(sp =>
+            services.AddSingleton(sp =>
             {
                 EventBusConfig config = new()
                 {
