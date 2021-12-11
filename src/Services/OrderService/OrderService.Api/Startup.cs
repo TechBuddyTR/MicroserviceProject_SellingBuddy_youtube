@@ -17,6 +17,7 @@ using OrderService.Api.IntegrationEvents.EventHandlers;
 using OrderService.Api.IntegrationEvents.Events;
 using OrderService.Application;
 using OrderService.Persistence;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,8 +88,12 @@ namespace OrderService.Api
                     ConnectionRetryCount = 5,
                     EventNameSuffix = "IntegrationEvent",
                     SubscriberClientAppName = "OrderService",
-                    //Connection = new ConnectionFactory(),
+                    Connection = new ConnectionFactory()
+                    {
+                        HostName = "c_rabbitmq"
+                    },
                     EventBusType = EventBusType.RabbitMQ,
+
                 };
 
                 return EventBusFactory.Create(config, sp);
@@ -96,7 +101,7 @@ namespace OrderService.Api
         }
 
         private void ConfigureEventBusForSubscription(IApplicationBuilder app)
-        { 
+        {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
 
             eventBus.Subscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();

@@ -47,7 +47,7 @@ namespace CatalogService.Api
 
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles(new StaticFileOptions() 
+            app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(System.IO.Path.Combine(env.ContentRootPath, "Pics")),
                 RequestPath = "/pics"
@@ -62,7 +62,7 @@ namespace CatalogService.Api
                 endpoints.MapControllers();
             });
 
-            app.RegisterWithConsul(lifetime);
+            app.RegisterWithConsul(lifetime, Configuration);
         }
     }
 }

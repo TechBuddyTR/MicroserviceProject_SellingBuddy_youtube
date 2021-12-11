@@ -6,8 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NotificationService.IntegrationEvents.EventHandlers;
 using PaymentService.Api.IntegrationEvents.Events;
+using RabbitMQ.Client;
 using Serilog;
 using System;
+using System.Threading.Tasks;
 
 namespace NotificationService
 {
@@ -17,10 +19,10 @@ namespace NotificationService
 
         static void Main(string[] args)
         {
-            ServiceCollection services = new ServiceCollection();
+            var services = new ServiceCollection();
 
             ConfigureServices(services);
-
+            
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(serilogConfiguration)
                 .CreateLogger();
@@ -33,9 +35,7 @@ namespace NotificationService
             eventBus.Subscribe<OrderPaymentFailedIntegrationEvent, OrderPaymentFailedIntegrationEventHandler>();
 
 
-            Log.Information("Application is Running....");
-
-            Console.ReadLine();
+            Log.Logger.Information("Application is Running....");
         }
 
         private static void ConfigureServices(ServiceCollection services)
@@ -43,14 +43,18 @@ namespace NotificationService
             services.AddTransient<OrderPaymentFailedIntegrationEventHandler>();
             services.AddTransient<OrderPaymentSuccessIntegrationEventHandler>();
 
-            services.AddSingleton<IEventBus>(sp =>
+            services.AddSingleton(sp =>
             {
                 EventBusConfig config = new()
                 {
                     ConnectionRetryCount = 5,
                     EventNameSuffix = "IntegrationEvent",
                     SubscriberClientAppName = "NotificationService",
-                    EventBusType = EventBusType.RabbitMQ
+                    EventBusType = EventBusType.RabbitMQ,
+                    Connection = new ConnectionFactory()
+                    {
+                        HostName = "c_rabbitmq"
+                    }
                 };
 
                 return EventBusFactory.Create(config, sp);

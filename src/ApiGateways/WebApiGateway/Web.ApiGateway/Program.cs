@@ -18,6 +18,11 @@ namespace Web.ApiGateway
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseDefaultServiceProvider((context, options) =>
+                {
+                    options.ValidateOnBuild = false;
+                    options.ValidateScopes = false;
+                })
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     config

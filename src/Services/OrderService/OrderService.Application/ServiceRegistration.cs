@@ -13,8 +13,8 @@ namespace OrderService.Application
         {
             var assm = Assembly.GetExecutingAssembly();
 
-            services.AddAutoMapper(assm);
             services.AddMediatR(assm);
+            services.AddAutoMapper(assm);
 
             return services;
         }

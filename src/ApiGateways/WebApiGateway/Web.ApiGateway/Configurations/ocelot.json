@@ -48,9 +48,9 @@
 
 
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000",
+    "BaseUrl": "http://webapigateway.api:5000",
     "ServiceDiscoveryProvider": {
-      "Host": "localhost",
+      "Host": "c_consul",
       "Port": 8500,
       "Type": "Consul"
     }
