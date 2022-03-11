@@ -28,6 +28,16 @@ namespace OrderService.Infrastructure.Context
 
         class NoMediator : IMediator
         {
+            public IAsyncEnumerable<TResponse> CreateStream<TResponse>(IStreamRequest<TResponse> request, CancellationToken cancellationToken = default)
+            {
+                return default;
+            }
+
+            public IAsyncEnumerable<object> CreateStream(object request, CancellationToken cancellationToken = default)
+            {
+                return default;
+            }
+
             public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default(CancellationToken)) where TNotification : INotification
             {
                 return Task.CompletedTask;

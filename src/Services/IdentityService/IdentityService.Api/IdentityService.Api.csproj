@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>1f865750-83e9-417b-b163-d334668b921e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -9,15 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Consul" Version="1.6.10.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.4" />
+    <PackageReference Include="Consul" Version="1.6.10.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
 
     <PackageReference Include="Serilog" Version="2.10.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.Graylog" Version="2.2.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
+    <PackageReference Include="Serilog.Sinks.Graylog" Version="2.3.0" />
     
   </ItemGroup>
 

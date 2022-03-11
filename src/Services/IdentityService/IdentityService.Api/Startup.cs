@@ -1,11 +1,14 @@
+using HealthChecks.UI.Client;
 using IdentityServer.Application.Services;
 using IdentityService.Extensions.Registration;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -37,6 +40,9 @@ namespace IdentityService.Api
             });
 
             services.ConfigureConsul(Configuration);
+
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +64,21 @@ namespace IdentityService.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+
+                endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
+                {
+                    Predicate = r => r.Name.Contains("self"),
+                    ResponseWriter = async (context, healthReport) => 
+                    {
+                        await Task.CompletedTask;
+                    }
+                });
             });
 
             app.RegisterWithConsul(lifetime, Configuration);

@@ -1,10 +1,13 @@
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -35,6 +38,13 @@ namespace Web.ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddHealthChecks()
+                .AddCheck("self", () => HealthCheckResult.Healthy());
+            //.AddUrlGroup(new Uri("http://localhost:5005/hc"), name: "identityapi-check", tags: new string[] { "identityapi" });
+
+            services.AddHealthChecksUI().AddInMemoryStorage();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web.ApiGateway", Version = "v1" });
@@ -82,7 +92,17 @@ namespace Web.ApiGateway
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecksUI();
             });
+
+            app.UseHealthChecks("/health", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
+
 
             await app.UseOcelot();
         }
