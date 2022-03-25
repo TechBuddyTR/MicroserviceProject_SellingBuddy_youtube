@@ -15,7 +15,7 @@
 #COPY --from=publish /app/build/wwwroot /usr/share/nginx/html/
 
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 COPY . ./
 #RUN dotnet publish -c Release -o output

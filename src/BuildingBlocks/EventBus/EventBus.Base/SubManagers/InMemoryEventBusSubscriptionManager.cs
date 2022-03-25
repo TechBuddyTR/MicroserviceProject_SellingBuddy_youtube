@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace EventBus.Base.SubManagers
 {
+
+   
+
+
+
     public class InMemoryEventBusSubscriptionManager : IEventBusSubscriptionManager
     {
         private readonly Dictionary<string, List<SubscriptionInfo>> _handlers;
@@ -123,7 +128,7 @@ namespace EventBus.Base.SubManagers
 
         public Type GetEventTypeByName(string eventName) => _eventTypes.SingleOrDefault(t => t.Name == eventName);
 
-        public string GetEventKey<T>()
+        public string GetEventKey<T>() where T:IntegrationEvent
         {
             string eventName = typeof(T).Name;
             return eventNameGetter(eventName);

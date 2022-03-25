@@ -26,6 +26,6 @@ namespace EventBus.Base.Abstraction
 
         IEnumerable<SubscriptionInfo> GetHandlersForEvent(string eventName);
 
-        string GetEventKey<T>();
+        string GetEventKey<T>() where T : IntegrationEvent;
     }
 }

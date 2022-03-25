@@ -57,8 +57,15 @@ namespace PaymentService.Api
                     EventBusType = EventBusType.RabbitMQ,
                     Connection = new ConnectionFactory()
                     {
-                        HostName = "c_rabbitmq"
-                    }
+                        HostName = "localhost",
+                        Port = 15672,
+                        UserName = "guest",
+                        Password = "guest"
+                    },
+                    //Connection = new ConnectionFactory()
+                    //{
+                    //    HostName = "c_rabbitmq"
+                    //}
                 };
 
                 return EventBusFactory.Create(config, sp);

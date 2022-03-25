@@ -90,8 +90,16 @@ namespace OrderService.Api
                     SubscriberClientAppName = "OrderService",
                     Connection = new ConnectionFactory()
                     {
-                        HostName = "c_rabbitmq"
+                        HostName = "localhost",
+                        Port = 15672,
+                        UserName = "guest",
+                        Password = "guest"
                     },
+                    //Connection = new ConnectionFactory()
+                    //{
+                    //    //HostName = "c_rabbitmq"
+                    //    HostName = "http://localhost:15672"
+                    //},
                     EventBusType = EventBusType.RabbitMQ,
 
                 };
